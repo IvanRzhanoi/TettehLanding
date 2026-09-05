@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+      The Studio — TETTEH
+    </title>
+    <meta name="description" content="A small workshop in Småland, Sweden, building furniture by hand from solid oak, ash and walnut. Slow, signed, and made to be repaired.">
+    <meta name="author" content="TETTEH">
+    <meta name="theme-color" content="#f4f4f2">
+    <link rel="canonical" href="https://atelier-ko-topaz.vercel.app/about/">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <link rel="preload" href="../_astro/archivo-latin-wght-normal.E0tuGl4L.woff2" as="font" type="font/woff2" crossorigin>
+    <meta property="og:title" content="The Studio — TETTEH">
+    <meta property="og:description" content="A small workshop in Småland, Sweden, building furniture by hand from solid oak, ash and walnut. Slow, signed, and made to be repaired.">
+    <meta property="og:site_name" content="TETTEH">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://atelier-ko-topaz.vercel.app/about/">
+    <meta property="og:image" content="https://atelier-ko-topaz.vercel.app/_astro/atelier-workshop.D8Oj3mnL.jpg">
+    <meta property="og:image:width" content="1920">
+    <meta property="og:image:height" content="1080">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="The Studio — TETTEH">
+    <meta name="twitter:description" content="A small workshop in Småland, Sweden, building furniture by hand from solid oak, ash and walnut. Slow, signed, and made to be repaired.">
+    <meta name="twitter:image" content="https://atelier-ko-topaz.vercel.app/_astro/atelier-workshop.D8Oj3mnL.jpg">
+    <script>
+      // Opt in to scroll motion before first paint, so revealed elements are
+      // never briefly visible. Without this flag every [data-reveal] target
+      // renders in its final state.
+      if (
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches === false &&
+        "IntersectionObserver" in window
+      ) {
+        document.documentElement.dataset.motion = "on";
+      }
+    </script>
+    <script>
+      (() => {
+        const storageKey = "atelier-ko-cart";
+      
+        function readCart() {
+          try {
+            return JSON.parse(window.localStorage.getItem(storageKey) || "[]");
+          } catch {
+            return [];
+          }
+        }
+      
+        function writeCart(items) {
+          window.localStorage.setItem(storageKey, JSON.stringify(items));
+          document.dispatchEvent(new CustomEvent("atelier-cart-change", { detail: items }));
+        }
+      
+        function count(items = readCart()) {
+          return items.reduce((total, item) => total + Number(item.quantity || 0), 0);
+        }
+      
+        function updateBadges() {
+          const total = count();
+          document.querySelectorAll("[data-cart-count]").forEach((node) => {
+            node.textContent = String(total).padStart(2, "0");
+          });
+          document.querySelectorAll("[data-cart-label]").forEach((node) => {
+            node.setAttribute("aria-label", `Cart, ${total} ${total === 1 ? "item" : "items"}`);
+          });
+        }
+      
+        window.AtelierCart = {
+          read: readCart,
+          write: writeCart,
+          count,
+          add(slug, quantity = 1) {
+            const items = readCart();
+            const existing = items.find((item) => item.slug === slug);
+            if (existing) {
+              existing.quantity += quantity;
+              writeCart(items);
+              return;
+            }
+            writeCart([...items, { slug, quantity }]);
+          },
+          remove(slug) {
+            writeCart(readCart().filter((item) => item.slug !== slug));
+          },
+          setQuantity(slug, quantity) {
+            if (quantity <= 0) {
+              this.remove(slug);
+              return;
+            }
+            writeCart(readCart().map((item) => (item.slug === slug ? { ...item, quantity } : item)));
+          },
+          updateBadges,
+        };
+      
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", updateBadges);
+        } else {
+          updateBadges();
+        }
+        window.addEventListener("storage", updateBadges);
+        document.addEventListener("atelier-cart-change", updateBadges);
+      })();
+    </script>
+    <link rel="stylesheet" href="../_astro/BaseLayout.DGcUG68y.css">
+  </head>
+  <body>
+    <a href="#main-content" class="btn btn-primary sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100]">
+      Skip to content
+    </a>
+    <header class="site-header sticky top-0 z-50" data-astro-cid-fzpbxy5g>
+      <nav class="shell flex h-[4.5rem] items-center justify-between gap-6" aria-label="Main" data-astro-cid-fzpbxy5g>
+        <a href="../index.html" class="-m-2 p-2 text-[0.9375rem] font-semibold uppercase tracking-[-0.01em] transition-colors hover:text-accent" aria-label="TETTEH, home" data-astro-cid-fzpbxy5g>
+          TETTEH
+        </a>
+        <ul class="hidden items-center gap-9 md:flex" data-astro-cid-fzpbxy5g>
+          <li data-astro-cid-fzpbxy5g>
+            <a href="../index.html" class="nav-link link-mono" data-astro-cid-fzpbxy5g>
+              Index
+            </a>
+          </li>
+          <!-- <li data-astro-cid-fzpbxy5g>
+            <a href="../catalog/index.html" class="nav-link link-mono" data-astro-cid-fzpbxy5g>
+              Catalogue
+            </a>
+          </li> -->
+          <li data-astro-cid-fzpbxy5g>
+            <a href="../about/index.html" class="nav-link link-mono is-current" aria-current="page" data-astro-cid-fzpbxy5g>
+              Studio
+            </a>
+          </li>
+        </ul>
+        <div class="flex items-center gap-1" data-astro-cid-fzpbxy5g>
+          <!-- <a href="../cart/index.html" data-cart-toggle data-cart-label aria-label="Cart, 0 items" aria-expanded="false" aria-controls="cart-drawer-panel" class="link-mono -m-2 inline-flex items-center gap-2 p-2 transition-colors hover:text-accent" data-astro-cid-fzpbxy5g>
+            <span class="hidden sm:inline" data-astro-cid-fzpbxy5g>
+              Cart
+            </span>
+            <span class="mono text-[0.6875rem]" data-cart-count data-astro-cid-fzpbxy5g>
+              00
+            </span>
+          </a>
+          <button type="button" class="-mr-2 inline-flex size-10 items-center justify-center transition-colors hover:text-accent md:hidden" aria-controls="mobile-menu" aria-expanded="false" data-mobile-menu-open data-astro-cid-fzpbxy5g>
+            <span class="sr-only" data-astro-cid-fzpbxy5g>
+              Open menu
+            </span>
+            <span class="flex w-[1.125rem] flex-col gap-[5px]" aria-hidden="true" data-astro-cid-fzpbxy5g>
+              <span class="h-px w-full bg-current" data-astro-cid-fzpbxy5g>
+              </span>
+              <span class="h-px w-full bg-current" data-astro-cid-fzpbxy5g>
+              </span>
+            </span>
+          </button> -->
+        </div>
+      </nav>
+    </header>
+    <div id="mobile-menu" class="fixed inset-0 z-[60] h-dvh bg-canvas md:hidden" role="dialog" aria-modal="true" aria-label="Site menu" data-mobile-menu hidden data-astro-cid-fzpbxy5g>
+      <div class="flex h-full flex-col px-[var(--gutter)] pb-8 pt-0" data-astro-cid-fzpbxy5g>
+        <div class="flex h-[4.5rem] shrink-0 items-center justify-between" data-astro-cid-fzpbxy5g>
+          <span class="text-[0.9375rem] font-semibold uppercase tracking-[-0.01em]" data-astro-cid-fzpbxy5g>
+            Menu
+          </span>
+          <button type="button" class="-mr-2 inline-flex size-10 items-center justify-center transition-colors hover:text-accent" data-mobile-menu-close data-astro-cid-fzpbxy5g>
+            <span class="sr-only" data-astro-cid-fzpbxy5g>
+              Close menu
+            </span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true" data-astro-cid-fzpbxy5g>
+              <path d="M5 5l14 14" data-astro-cid-fzpbxy5g>
+              </path>
+              <path d="M19 5L5 19" data-astro-cid-fzpbxy5g>
+              </path>
+            </svg>
+          </button>
+        </div>
+        <ul class="mt-6 border-t border-line" data-astro-cid-fzpbxy5g>
+          <li class="menu-item border-b border-line" style="--i:0" data-astro-cid-fzpbxy5g>
+            <a href="../index.html" class="flex items-baseline gap-4 py-5 transition-colors hover:text-accent text-muted" data-mobile-menu-link data-astro-cid-fzpbxy5g>
+              <span class="mono text-[0.6875rem] text-accent" data-astro-cid-fzpbxy5g>
+                01
+              </span>
+              <span class="type-h3" data-astro-cid-fzpbxy5g>
+                Index
+              </span>
+            </a>
+          </li>
+          <li class="menu-item border-b border-line" style="--i:1" data-astro-cid-fzpbxy5g>
+            <a href="../catalog/index.html" class="flex items-baseline gap-4 py-5 transition-colors hover:text-accent text-muted" data-mobile-menu-link data-astro-cid-fzpbxy5g>
+              <span class="mono text-[0.6875rem] text-accent" data-astro-cid-fzpbxy5g>
+                02
+              </span>
+              <span class="type-h3" data-astro-cid-fzpbxy5g>
+                Catalogue
+              </span>
+            </a>
+          </li>
+          <li class="menu-item border-b border-line" style="--i:2" data-astro-cid-fzpbxy5g>
+            <a href="../about/index.html" class="flex items-baseline gap-4 py-5 transition-colors hover:text-accent" aria-current="page" data-mobile-menu-link data-astro-cid-fzpbxy5g>
+              <span class="mono text-[0.6875rem] text-accent" data-astro-cid-fzpbxy5g>
+                03
+              </span>
+              <span class="type-h3" data-astro-cid-fzpbxy5g>
+                Studio
+              </span>
+            </a>
+          </li>
+          <li class="menu-item border-b border-line" style="--i:3" data-astro-cid-fzpbxy5g>
+            <a href="../cart/index.html" data-cart-label aria-label="Cart, 0 items" class="flex items-baseline gap-4 py-5 text-muted transition-colors hover:text-accent" data-mobile-menu-link data-astro-cid-fzpbxy5g>
+              <span class="mono text-[0.6875rem] text-accent" data-astro-cid-fzpbxy5g>
+                04
+              </span>
+              <span class="type-h3" data-astro-cid-fzpbxy5g>
+                Cart
+              </span>
+              <span class="mono ml-auto self-center text-[0.6875rem]" data-cart-count data-astro-cid-fzpbxy5g>
+                00
+              </span>
+            </a>
+          </li>
+        </ul>
+        <a href="../products/oken-stool/index.html" class="menu-item group mt-auto block pt-8" style="--i:4" data-mobile-menu-link data-astro-cid-fzpbxy5g>
+          <div class="overflow-hidden bg-surface" data-astro-cid-fzpbxy5g>
+            <img src="../_astro/p-oken-1.B6o-BlcA_Z7g310.webp" alt="Oken Stool — Solid White Oak" loading="lazy" data-astro-cid-fzpbxy5g="true" decoding="async" width="900" height="560" class="aspect-[16/10] max-h-[28dvh] w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]">
+          </div>
+          <div class="mt-3 flex items-baseline justify-between gap-4" data-astro-cid-fzpbxy5g>
+            <p class="label" data-astro-cid-fzpbxy5g>
+              In the workshop — Oken Stool
+            </p>
+            <p class="mono text-[0.6875rem]" data-astro-cid-fzpbxy5g>
+              $320
+            </p>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="cart-drawer" data-cart-drawer hidden>
+      <div class="cart-backdrop" data-cart-backdrop>
+      </div>
+      <!-- A plain div, not <aside>: role="dialog" is not permitted on an element
+       whose implicit role is already complementary. -->
+      <div id="cart-drawer-panel" class="cart-panel" role="dialog" aria-modal="true" aria-labelledby="cart-drawer-heading" data-cart-panel>
+        <div class="cart-panel-head">
+          <h2 id="cart-drawer-heading" class="text-[0.9375rem] font-semibold uppercase tracking-[-0.01em]">
+            Cart
+            <span class="mono text-[0.6875rem] font-normal text-muted" data-cart-count>
+              00
+            </span>
+          </h2>
+          <button type="button" class="-mr-2 inline-flex size-10 items-center justify-center transition-colors hover:text-accent" data-cart-close>
+            <span class="sr-only">
+              Close cart
+            </span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true">
+              <path d="M5 5l14 14">
+              </path>
+              <path d="M19 5L5 19">
+              </path>
+            </svg>
+          </button>
+        </div>
+        <div class="cart-panel-body">
+          <ul data-cart-lines>
+          </ul>
+          <div class="py-14 text-center" data-cart-drawer-empty>
+            <p class="type-body text-[0.9375rem]">
+              Nothing selected yet.
+            </p>
+            <a href="../catalog/index.html" class="btn btn-outline mt-6 w-full" data-cart-close>
+              Browse the catalogue
+            </a>
+          </div>
+        </div>
+        <div class="cart-panel-foot" data-cart-drawer-foot hidden>
+          <div class="flex items-baseline justify-between gap-4">
+            <span class="label">
+              Subtotal
+            </span>
+            <span class="mono text-lg" data-cart-drawer-subtotal>
+              $0
+            </span>
+          </div>
+          <p class="mono mt-2 text-[0.625rem] uppercase tracking-[0.05em] text-muted">
+            Delivery calculated at checkout
+          </p>
+          <a href="../cart/index.html" class="btn btn-primary mt-5 w-full">
+            Checkout
+          </a>
+          <button type="button" class="link link-mono mx-auto mt-4 block text-muted" data-cart-close>
+            Continue browsing
+          </button>
+        </div>
+      </div>
+    </div>
+    <script type="application/json" id="cart-drawer-data">
+      {"locale":"en-US","currency":"USD","shippingFlatRate":120,"products":[{"slug":"oken-stool","name":"Oken Stool","price":320,"meta":"Oak · Matte Hard-Wax Oil","href":"../products/oken-stool/index.html","image":"../_astro/p-oken-1.B6o-BlcA_Z2vvedI.webp"},{"slug":"arvid-chair","name":"Arvid Chair","price":840,"meta":"Ash · Soap-Treated","href":"../products/arvid-chair/index.html","image":"../_astro/p-arvid-3.BmDp2nLv_ZiQbKr.webp"},{"slug":"low-plinth-table","name":"Low Plinth Table","price":1200,"meta":"Walnut · Natural Oil","href":"../products/low-plinth-table/index.html","image":"../_astro/p-plinth-1.n3qgCCmL_7YBnu.webp"},{"slug":"monolith-bench","name":"Monolith Bench","price":1480,"meta":"Oak · Raw / Unfinished","href":"../products/monolith-bench/index.html","image":"../_astro/p-monolith-1.DKv_fRzK_Z18gs7n.webp"},{"slug":"halla-shelf","name":"Halla Shelf","price":460,"meta":"Oak · Matte Hard-Wax Oil","href":"../products/halla-shelf/index.html","image":"../_astro/p-halla-1.jzRdYSz3_Z1UALip.webp"},{"slug":"tora-desk","name":"Tora Desk","price":1980,"meta":"Walnut · Natural Oil","href":"../products/tora-desk/index.html","image":"../_astro/p-tora-1.BtjGgI1X_ZclW1w.webp"}]}
+    </script>
+    <script>
+      (() => {
+        const drawer = document.querySelector("[data-cart-drawer]");
+        if (!drawer) return;
+      
+        const data = JSON.parse(document.getElementById("cart-drawer-data").textContent);
+        const bySlug = new Map(data.products.map((product) => [product.slug, product]));
+        const money = (value) =>
+          new Intl.NumberFormat(data.locale, {
+            style: "currency",
+            currency: data.currency,
+            maximumFractionDigits: 0,
+          }).format(value);
+      
+        const list = drawer.querySelector("[data-cart-lines]");
+        const empty = drawer.querySelector("[data-cart-drawer-empty]");
+        const foot = drawer.querySelector("[data-cart-drawer-foot]");
+        const subtotal = drawer.querySelector("[data-cart-drawer-subtotal]");
+      
+        function render() {
+          const rows = window.AtelierCart.read()
+            .map((item) => ({ item, product: bySlug.get(item.slug) }))
+            .filter((row) => row.product);
+      
+          empty.hidden = rows.length > 0;
+          foot.hidden = rows.length === 0;
+          subtotal.textContent = money(
+            rows.reduce((total, row) => total + row.product.price * row.item.quantity, 0),
+          );
+      
+          list.replaceChildren();
+      
+          for (const { item, product } of rows) {
+            const line = document.createElement("li");
+            line.className = "cart-line";
+            line.innerHTML = `
+              <a class="block" tabindex="-1" aria-hidden="true"><img alt="" width="72" height="72" loading="lazy" /></a>
+              <div class="flex min-w-0 flex-col gap-3">
+                <div class="flex justify-between gap-3">
+                  <div class="min-w-0">
+                    <a class="link block truncate text-[0.9375rem] font-medium" data-line-name></a>
+                    <p class="mono mt-1 truncate text-[0.625rem] uppercase tracking-[0.05em] text-muted" data-line-meta></p>
+                  </div>
+                  <span class="mono shrink-0 text-[0.8125rem]" data-line-price></span>
+                </div>
+                <div class="flex items-center justify-between gap-3">
+                  <div class="qty qty-sm">
+                    <button type="button" data-line-decrease>&minus;</button>
+                    <output data-line-quantity></output>
+                    <button type="button" data-line-increase>+</button>
+                  </div>
+                  <button type="button" class="link link-mono text-muted" data-line-remove>Remove</button>
+                </div>
+              </div>`;
+      
+            const image = line.querySelector("img");
+            image.src = product.image;
+            line.querySelector("a").href = product.href;
+      
+            const name = line.querySelector("[data-line-name]");
+            name.textContent = product.name;
+            name.href = product.href;
+      
+            line.querySelector("[data-line-meta]").textContent = product.meta;
+            line.querySelector("[data-line-price]").textContent = money(product.price * item.quantity);
+            line.querySelector("[data-line-quantity]").textContent = String(item.quantity);
+      
+            const decrease = line.querySelector("[data-line-decrease]");
+            decrease.setAttribute("aria-label", `Decrease ${product.name} quantity`);
+            decrease.addEventListener("click", () =>
+              window.AtelierCart.setQuantity(item.slug, item.quantity - 1),
+            );
+      
+            const increase = line.querySelector("[data-line-increase]");
+            increase.setAttribute("aria-label", `Increase ${product.name} quantity`);
+            increase.addEventListener("click", () =>
+              window.AtelierCart.setQuantity(item.slug, item.quantity + 1),
+            );
+      
+            const remove = line.querySelector("[data-line-remove]");
+            remove.setAttribute("aria-label", `Remove ${product.name} from cart`);
+            remove.addEventListener("click", () => window.AtelierCart.remove(item.slug));
+      
+            list.appendChild(line);
+          }
+        }
+      
+        document.addEventListener("atelier-cart-change", render);
+        render();
+      })();
+    </script>
+    <script>
+      (() => {
+        const menu = document.querySelector("[data-mobile-menu]");
+        const openButton = document.querySelector("[data-mobile-menu-open]");
+        const closeButton = document.querySelector("[data-mobile-menu-close]");
+      
+        if (!menu || !openButton || !closeButton) return;
+      
+        const focusableSelector = "a[href],button:not([disabled]),input:not([disabled]),[tabindex]:not([tabindex='-1'])";
+        let lastFocused = null;
+      
+        function getFocusable() {
+          return Array.from(menu.querySelectorAll(focusableSelector)).filter((node) => node.offsetParent !== null);
+        }
+      
+        function openMenu() {
+          lastFocused = document.activeElement;
+          menu.hidden = false;
+          openButton.setAttribute("aria-expanded", "true");
+          document.documentElement.style.overflow = "hidden";
+          closeButton.focus({ preventScroll: true });
+        }
+      
+        function closeMenu({ restoreFocus = true } = {}) {
+          menu.hidden = true;
+          openButton.setAttribute("aria-expanded", "false");
+          document.documentElement.style.overflow = "";
+          if (restoreFocus && lastFocused) lastFocused.focus({ preventScroll: true });
+        }
+      
+        openButton.addEventListener("click", openMenu);
+        closeButton.addEventListener("click", () => closeMenu());
+      
+        menu.querySelectorAll("[data-mobile-menu-link]").forEach((link) => {
+          link.addEventListener("click", () => closeMenu({ restoreFocus: false }));
+        });
+      
+        document.addEventListener("keydown", (event) => {
+          if (menu.hidden) return;
+      
+          if (event.key === "Escape") {
+            event.preventDefault();
+            closeMenu();
+            return;
+          }
+      
+          if (event.key !== "Tab") return;
+      
+          const focusable = getFocusable();
+          const first = focusable[0];
+          const last = focusable[focusable.length - 1];
+          if (!first || !last) return;
+      
+          if (event.shiftKey && document.activeElement === first) {
+            event.preventDefault();
+            last.focus();
+          } else if (!event.shiftKey && document.activeElement === last) {
+            event.preventDefault();
+            first.focus();
+          }
+        });
+      
+        window.addEventListener("resize", () => {
+          if (!menu.hidden && window.matchMedia("(min-width: 768px)").matches) {
+            closeMenu({ restoreFocus: false });
+          }
+        });
+      })();
+    </script>
+    <main id="main-content">
+      <section class="shell pb-12 pt-12 md:pb-16 md:pt-20">
+        <h1 class="type-h1 hero-in max-w-[11ch]">
+          A small workshop, made slowly
+        </h1>
+        <p class="type-lead hero-in mt-8 max-w-[58ch]" style="--reveal-delay:120ms">
+          TETTEH is a two-person furniture workshop in Småland, Sweden. We design and build a small catalogue of seating, tables and storage — by hand, to order, in solid wood. No factory, no veneers, no rush.
+        </p>
+      </section>
+      <figure class="hero-in overflow-hidden bg-surface" style="--reveal-delay:260ms">
+        <img src="../_astro/atelier-workshop.D8Oj3mnL_1EADmy.webp" alt="Sunlit Scandinavian woodworking atelier with hand tools and a half-finished chair" loading="eager" decoding="sync" width="1920" height="1080" class="parallax h-[50vh] w-full object-cover md:h-[72vh]">
+      </figure>
+      <section class="shell mt-24 grid gap-8 md:mt-36 md:grid-cols-12">
+        <div class="md:col-span-5" data-reveal>
+          <h2 class="type-h2 max-w-[12ch]">
+            We started with one chair
+          </h2>
+        </div>
+        <div class="md:col-span-6 md:col-start-7" data-reveal style="--reveal-delay:120ms">
+          <p class="type-body">
+            TETTEH began in a borrowed barn outside Växjö, with a single steam-bent ash chair — the piece that became the Arvid. Seven years later, we still work in solid wood only, still build to order, and still sign every piece on the underside before it leaves.
+          </p>
+          <p class="type-body mt-5">
+            The catalogue is intentionally small. Six pieces, three timbers. We'd rather know a few things well than offer a hundred we don't.
+          </p>
+        </div>
+      </section>
+      <section class="shell mt-24 md:mt-36">
+        <div class="rule" data-reveal="line">
+        </div>
+        <h2 class="type-h2 mt-8 max-w-[16ch]" data-reveal>
+          How we work
+        </h2>
+        <div class="mt-12 grid gap-x-8 gap-y-12 md:grid-cols-3">
+          <div class="border-t border-line pt-6" data-reveal style="--reveal-delay:0ms">
+            <h3 class="type-h3">
+              Solid wood, always
+            </h3>
+            <p class="type-body mt-4 text-[0.9375rem]">
+              No MDF, no veneer, no engineered cores. Every surface you see and touch is the same piece of wood, all the way through.
+            </p>
+          </div>
+          <div class="border-t border-line pt-6" data-reveal style="--reveal-delay:110ms">
+            <h3 class="type-h3">
+              By hand, mostly
+            </h3>
+            <p class="type-body mt-4 text-[0.9375rem]">
+              Machines mill and rough-cut. The joints, the surfaces and the finish are all worked by hand. It&#39;s slower. It shows.
+            </p>
+          </div>
+          <div class="border-t border-line pt-6" data-reveal style="--reveal-delay:220ms">
+            <h3 class="type-h3">
+              Made to be repaired
+            </h3>
+            <p class="type-body mt-4 text-[0.9375rem]">
+              Hard-wax oils and natural soap finishes can be re-applied at home. Joints are mechanical, not glued shut. Nothing is disposable.
+            </p>
+          </div>
+        </div>
+      </section>
+      <section class="shell mt-24 grid items-center gap-10 md:mt-36 md:grid-cols-12 md:gap-12">
+        <div class="md:col-span-5">
+          <div class="overflow-hidden bg-surface" data-reveal="mask">
+            <div>
+              <img src="../_astro/atelier-hands.WCKHfa79_Hnkib.webp" alt="Close-up of a craftsman's hands planing a piece of pale oak" loading="lazy" decoding="async" width="1080" height="1440" class="aspect-[3/4] w-full object-cover">
+            </div>
+          </div>
+        </div>
+        <div class="md:col-span-6 md:col-start-7" data-reveal style="--reveal-delay:140ms">
+          <blockquote>
+            <p class="type-h3 max-w-[26ch] text-[clamp(1.5rem,2.8vw,2.25rem)] leading-[1.15]">
+              "We don't buy lumber by the pallet. Every board is chosen for the piece it will become — sometimes months before it is cut."
+            </p>
+            <footer class="label mt-6">
+              Erik Lindgren — founder
+            </footer>
+          </blockquote>
+          <p class="type-body mt-8 max-w-[48ch] border-t border-line pt-6 text-[0.9375rem]">
+            European oak from managed Swedish forests. Curved ash from a small reserve on the south coast. American walnut from a family mill in Pennsylvania. Three woods. No more.
+          </p>
+        </div>
+      </section>
+      <section class="mt-24 border-y border-line md:mt-36" aria-label="Studio at a glance">
+        <dl class="shell grid grid-cols-2 md:grid-cols-4">
+          <div class="fact" data-reveal style="--reveal-delay:0ms">
+            <dt class="label">
+              Founded
+            </dt>
+            <dd class="mt-2.5 text-2xl font-medium tracking-[-0.03em] md:text-3xl">
+              2018
+            </dd>
+          </div>
+          <div class="fact" data-reveal style="--reveal-delay:70ms">
+            <dt class="label">
+              Makers
+            </dt>
+            <dd class="mt-2.5 text-2xl font-medium tracking-[-0.03em] md:text-3xl">
+              02
+            </dd>
+          </div>
+          <div class="fact" data-reveal style="--reveal-delay:140ms">
+            <dt class="label">
+              Timbers
+            </dt>
+            <dd class="mt-2.5 text-2xl font-medium tracking-[-0.03em] md:text-3xl">
+              03
+            </dd>
+          </div>
+          <div class="fact" data-reveal style="--reveal-delay:210ms">
+            <dt class="label">
+              Weeks lead time
+            </dt>
+            <dd class="mt-2.5 text-2xl font-medium tracking-[-0.03em] md:text-3xl">
+              4–10
+            </dd>
+          </div>
+        </dl>
+      </section>
+      <section id="studio" class="shell mt-24 md:mt-36">
+        <div class="grid items-end gap-8 md:grid-cols-12" data-reveal>
+          <div class="md:col-span-7">
+            <h2 class="type-h2 max-w-[16ch]">
+              Visit the workshop, or begin with a piece
+            </h2>
+          </div>
+          <div class="flex flex-wrap gap-3 md:col-span-5 md:justify-end">
+            <a href="../catalog/index.html" class="btn btn-primary">
+              See the catalogue
+            </a>
+            <a href="mailto:email@example.com" class="btn btn-outline">
+              Write to us
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer id="studio" class="mt-24 border-t border-line md:mt-36">
+      <section class="shell border-b border-line py-16 md:py-24" aria-labelledby="newsletter-heading">
+        <div class="mx-auto max-w-[34rem] text-center" data-reveal>
+          <h2 id="newsletter-heading" class="type-h2">
+            New pieces, one email at a time
+          </h2>
+          <form class="mx-auto mt-9 max-w-[24rem]" data-newsletter-form novalidate>
+            <label class="sr-only" for="newsletter-email">
+              Email address
+            </label>
+            <div class="newsletter-field">
+              <input id="newsletter-email" name="email" type="email" required autocomplete="email" placeholder="email@example.com">
+            </div>
+            <button type="submit" class="btn btn-primary mt-5 w-full" data-newsletter-button>
+              Notify me
+            </button>
+            <p class="mono mt-4 min-h-[1rem] text-[0.6875rem] text-accent" data-newsletter-status role="status">
+            </p>
+          </form>
+        </div>
+      </section>
+      <div class="shell pt-16">
+        <div class="grid gap-12 md:grid-cols-12 md:gap-8">
+          <div class="md:col-span-5">
+            <p class="text-[0.9375rem] font-semibold uppercase tracking-[-0.01em]">
+              TETTEH
+            </p>
+            <p class="type-body mt-4 max-w-[34ch] text-[0.9375rem]">
+              A two-person workshop in Småland, Sweden. Solid oak, ash and walnut — cut, joined and finished by hand.
+            </p>
+          </div>
+          <!-- <nav class="md:col-span-2 md:last:col-span-3" aria-label="Catalogue">
+            <h2 class="label">
+              Catalogue
+            </h2>
+            <ul class="mt-5 space-y-2.5">
+              <li>
+                <a href="../catalog/index.html" class="link text-[0.9375rem] text-muted">
+                  All pieces
+                </a>
+              </li>
+              <li>
+                <a href="../about/index.html" class="link text-[0.9375rem] text-muted">
+                  The studio
+                </a>
+              </li>
+              <li>
+                <a href="../cart/index.html" class="link text-[0.9375rem] text-muted">
+                  Your cart
+                </a>
+              </li>
+            </ul>
+          </nav> -->
+          <!-- <nav class="md:col-span-2 md:last:col-span-3" aria-label="Enquiries">
+            <h2 class="label">
+              Enquiries
+            </h2>
+            <ul class="mt-5 space-y-2.5">
+              <li>
+                <a href="../about/index.html" class="link text-[0.9375rem] text-muted">
+                  Custom orders
+                </a>
+              </li>
+              <li>
+                <a href="../about/index.html" class="link text-[0.9375rem] text-muted">
+                  Trade portal
+                </a>
+              </li>
+              <li>
+                <a href="../about/index.html" class="link text-[0.9375rem] text-muted">
+                  Studio visits
+                </a>
+              </li>
+            </ul>
+          </nav> -->
+          <nav class="md:col-span-2 md:last:col-span-3" aria-label="Elsewhere">
+            <h2 class="label">
+              Elsewhere
+            </h2>
+            <ul class="mt-5 space-y-2.5">
+              <li>
+                <a href="https://www.instagram.com/" class="link text-[0.9375rem] text-muted">
+                  Instagram
+                </a>
+              </li>
+              <li>
+                <a href="mailto:email@example.com" class="link text-[0.9375rem] text-muted">
+                  email@example.com
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+        <div class="mt-20 border-t border-line py-8">
+          <p class="mono text-[0.6875rem] uppercase tracking-[0.05em] text-muted">
+            © 2026 TETTEH — all pieces made to order
+          </p>
+        </div>
+      </div>
+    </footer>
+    <script>
+      (() => {
+        const form = document.querySelector("[data-newsletter-form]");
+        if (!form) return;
+      
+        const button = form.querySelector("[data-newsletter-button]");
+        const status = form.querySelector("[data-newsletter-status]");
+      
+        form.addEventListener("submit", (event) => {
+          event.preventDefault();
+      
+          if (!form.checkValidity()) {
+            status.textContent = "Please enter a valid email address.";
+            form.reportValidity();
+            return;
+          }
+      
+          button.disabled = true;
+          button.textContent = "Saving";
+          window.setTimeout(() => {
+            form.reset();
+            button.disabled = false;
+            button.textContent = "Notify me";
+            status.textContent = "You're on the list. We'll be in touch.";
+          }, 450);
+        });
+      })();
+    </script>
+    <script>
+      // Cart drawer. The panel lives once in the header, so open/close is
+      // delegated from the document. Any element with `data-cart-toggle` opens
+      // it and any `data-cart-close` closes it, which means pages never wire up
+      // their own handlers. Without JavaScript the header cart stays an
+      // ordinary link to /cart and this never runs.
+      (() => {
+        const drawer = document.querySelector("[data-cart-drawer]");
+        if (!drawer) return;
+      
+        const panel = drawer.querySelector("[data-cart-panel]");
+        const focusableSelector =
+          "a[href],button:not([disabled]),input:not([disabled]),[tabindex]:not([tabindex='-1'])";
+        let lastFocused = null;
+      
+        function setOpen(open) {
+          drawer.hidden = !open;
+          document.documentElement.style.overflow = open ? "hidden" : "";
+          document.querySelectorAll("[data-cart-toggle]").forEach((toggle) => {
+            toggle.setAttribute("aria-expanded", String(open));
+          });
+      
+          if (open) {
+            lastFocused = document.activeElement;
+            panel.querySelector("[data-cart-close]")?.focus({ preventScroll: true });
+          } else if (lastFocused) {
+            lastFocused.focus({ preventScroll: true });
+          }
+        }
+      
+        window.AtelierCart.openDrawer = () => setOpen(true);
+      
+        document.addEventListener("click", (event) => {
+          const target = event.target instanceof Element ? event.target : null;
+          if (!target) return;
+      
+          if (target.closest("[data-cart-toggle]")) {
+            event.preventDefault();
+            setOpen(drawer.hidden);
+          } else if (target.closest("[data-cart-close]") || target.matches("[data-cart-backdrop]")) {
+            setOpen(false);
+          }
+        });
+      
+        // Any control with `data-add-to-cart` adds its product and opens the
+        // panel, so the drawer is the confirmation rather than a label swap.
+        document.addEventListener("click", (event) => {
+          const button = event.target instanceof Element && event.target.closest("[data-add-to-cart]");
+          if (!button) return;
+      
+          const quantity = Number(button.dataset.addQuantity || 1);
+          window.AtelierCart.add(button.dataset.addToCart, Math.max(1, quantity));
+          setOpen(true);
+        });
+      
+        document.addEventListener("keydown", (event) => {
+          if (drawer.hidden) return;
+      
+          if (event.key === "Escape") {
+            event.preventDefault();
+            setOpen(false);
+            return;
+          }
+      
+          if (event.key !== "Tab") return;
+      
+          const focusable = Array.from(panel.querySelectorAll(focusableSelector)).filter(
+            (node) => node.offsetParent !== null,
+          );
+          const first = focusable[0];
+          const last = focusable[focusable.length - 1];
+          if (!first || !last) return;
+      
+          if (event.shiftKey && document.activeElement === first) {
+            event.preventDefault();
+            last.focus();
+          } else if (!event.shiftKey && document.activeElement === last) {
+            event.preventDefault();
+            first.focus();
+          }
+        });
+      })();
+    </script>
+    <script>
+      // Scroll reveals. Each target unobserves itself after firing once, so the
+      // observer costs nothing after the first pass down the page.
+      (() => {
+        if (document.documentElement.dataset.motion !== "on") return;
+      
+        const observer = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (!entry.isIntersecting) continue;
+              entry.target.classList.add("is-in");
+              observer.unobserve(entry.target);
+            }
+          },
+          { rootMargin: "0px 0px -8% 0px", threshold: 0 },
+        );
+      
+        const observeAll = () => {
+          document.querySelectorAll("[data-reveal]:not(.is-in)").forEach((node) => observer.observe(node));
+        };
+      
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", observeAll);
+        } else {
+          observeAll();
+        }
+      })();
+    </script>
+  </body>
+</html>
